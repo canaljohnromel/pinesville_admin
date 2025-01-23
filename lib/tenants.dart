@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinesville_admin/chats.dart'; // Add this import
 import 'package:pinesville_admin/chats.dart';
 
 class TenantsPage extends StatefulWidget {
