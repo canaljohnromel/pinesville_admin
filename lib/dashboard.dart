@@ -24,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     BillsAndPaymentsPage(),
     AnnouncementsPage(),
     ReportsRequestsPage(),
-    Center(child: Text('Analytics Content', style: TextStyle(fontSize: 24))),
+    AnalyticsPage(),
   ];
 
   @override
