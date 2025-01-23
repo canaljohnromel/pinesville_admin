@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:pinesville_admin/dashboard.dart';
 import 'package:pinesville_admin/login.dart';
 import 'package:pinesville_admin/chats.dart';
+import 'package:pinesville_admin/tenants.dart';
 
 void main() {
   runApp(MyApp());

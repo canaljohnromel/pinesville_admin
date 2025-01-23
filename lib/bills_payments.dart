@@ -1,67 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:data_table_2/data_table_2.dart';
 
-class BillsAndPaymentsPage extends StatelessWidget {
+class BillsAndPaymentsPage extends StatefulWidget {
+  @override
+  _BillsAndPaymentsPageState createState() => _BillsAndPaymentsPageState();
+}
+
+class _BillsAndPaymentsPageState extends State<BillsAndPaymentsPage> {
+  // Initial table data with only Unit No. and Name
+  List<Map<String, String?>> tableData = List.generate(
+    16,
+        (index) =>
+    {
+      'Unit No.': '10${index + 1}',
+      'Name': 'Tenant ${index + 1}',
+      'Billing Period': null,
+      'Rent': null,
+      'Water': null,
+      'Electricity': null,
+      'Wi-Fi': null,
+      'Parking': null,
+      'Extra': null,
+      'Due Date': null,
+      'Total': null,
+      'Status': null,
+      'Payment Date': null,
+      'Mode': null,
+    },
+  );
+
+  int? selectedRowIndex; // Track the selected row index
+  String searchQuery = ''; // Track the search query
+
+  // Function to filter table data based on the search query
+  List<Map<String, String?>> get filteredTableData {
+    if (searchQuery.isEmpty) return tableData;
+
+    return tableData
+        .where((row) =>
+    row['Unit No.']!.toLowerCase().contains(searchQuery.toLowerCase()) ||
+        row['Name']!.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0), // Only horizontal padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title
+            // Removed any additional padding above the text
             Text(
               'Bills & Payments',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             Divider(color: Colors.grey, thickness: 1),
-            SizedBox(height: 20),
-            // Tabs and Filters
-            Row(
-              children: [
-                ToggleButtons(
-                  isSelected: [true, false, false],
-                  onPressed: (index) {},
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('All'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Paid'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Overdue'),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                // Search Bar
-                SizedBox(
-                  width: 400,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+            SizedBox(height: 5), // Reduced the height to 5 for less space
+
+            // Search Bar below the divider and aligned to the right
+            Align(
+              alignment: Alignment.centerRight,
+              child: SizedBox(
+                width: 300,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
                 ),
-              ],
+              ),
             ),
-            SizedBox(height: 20),
-            // Table
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columnSpacing: 52,
+            SizedBox(
+              height: 400, // Fixed height for the table
+              child: DataTable2(
+                columnSpacing: 5,
+                headingRowHeight: 40,
+                horizontalMargin: 12,
+                minWidth: 800, // Set a minimum width to enable horizontal scrolling if needed
                 columns: const [
                   DataColumn(label: Text('Unit No.')),
                   DataColumn(label: Text('Name')),
@@ -73,99 +96,80 @@ class BillsAndPaymentsPage extends StatelessWidget {
                   DataColumn(label: Text('Parking')),
                   DataColumn(label: Text('Extra')),
                   DataColumn(label: Text('Due Date')),
-                  DataColumn(label: Text('Total', style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text('Total', style: TextStyle(fontWeight: FontWeight.bold))),
                   DataColumn(label: Text('Status')),
                   DataColumn(label: Text('Payment Date')),
                   DataColumn(label: Text('Mode')),
                 ],
-                rows: List.generate(
-                  6,
-                      (index) => DataRow(cells: [
-                    DataCell(Text('101')),
-                    DataCell(Text('Juan Dela Cruz')),
-                        DataCell(Text('Jan 1 - Jan 15')),
-                    DataCell(Text('4,500')),
-                        DataCell(Text('4,500')),
-                        DataCell(Text('4,500')),
-                        DataCell(Text('4,500')),
-                        DataCell(Text('4,500')),
-                        DataCell(Text('-')),
-                    DataCell(Text('Jan 10, 2024')),
-                        DataCell(Text('14,500')),
-                    DataCell(Text(index % 2 == 0 ? 'Paid' : 'Pending')),
-                    DataCell(Text('Jan 10, 2024')),
-                        DataCell(Text('GCASH')),
-                  ]),
+                rows: List<DataRow>.generate(
+                  filteredTableData.length,
+                      (index) => DataRow(
+                    color: MaterialStateProperty.resolveWith<Color?>(
+                          (states) => selectedRowIndex ==
+                          tableData.indexOf(filteredTableData[index])
+                          ? Colors.grey[300]
+                          : null,
+                    ),
+                    cells: [
+                      DataCell(
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedRowIndex =
+                                  tableData.indexOf(filteredTableData[index]);
+                            });
+                          },
+                          child: Text(filteredTableData[index]['Unit No.']!),
+                        ),
+                      ),
+                      DataCell(
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedRowIndex =
+                                  tableData.indexOf(filteredTableData[index]);
+                            });
+                          },
+                          child: Text(filteredTableData[index]['Name']!),
+                        ),
+                      ),
+                      DataCell(Text(filteredTableData[index]['Billing Period'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Rent'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Water'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Electricity'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Wi-Fi'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Parking'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Extra'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Due Date'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Total'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Status'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Payment Date'] ?? '-')),
+                      DataCell(Text(filteredTableData[index]['Mode'] ?? '-')),
+                    ],
+                  ),
                 ),
+                dataRowHeight: 60, // Adjust the height of rows as needed
+                headingRowColor:
+                MaterialStateProperty.resolveWith((states) => Colors.grey[200]),
               ),
             ),
             SizedBox(height: 20),
             // Action Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Remind'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _showConfigureDialog(context);
-                  },
-                  child: Text('Configure'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Generate Invoice'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('View Receipts'),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            // Summary Cards and Pie Chart
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Summary Cards
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    children: [
-                      _buildSummaryCard('P12,345', 'Amount Collected'),
-                      _buildSummaryCard('P12,345', 'Amount Remaining'),
-                      _buildSummaryCard('P12,345', 'Total Amount'),
-                      _buildSummaryCard('5', 'Total Number of Tenants'),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 20),
-                // Pie Chart
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Pie Chart',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: selectedRowIndex != null
+                  ? () => _showConfigureDialog(context)
+                  : null, // Disable if no row is selected
+              child: Text('Configure'),
             ),
           ],
         ),
       ),
     );
   }
+
+
+
 
   void _showConfigureDialog(BuildContext context) {
     showDialog(
@@ -178,7 +182,8 @@ class BillsAndPaymentsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Billing Date Configuration
-                Text('Billing Date', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Billing Date',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),
                 Row(
                   children: [
@@ -238,7 +243,8 @@ class BillsAndPaymentsPage extends StatelessWidget {
                 Divider(),
 
                 // Electricity Configuration
-                Text('Electricity', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Electricity',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 8),
                 Row(
                   children: [
@@ -543,31 +549,6 @@ class BillsAndPaymentsPage extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-
-
-
-  Widget _buildSummaryCard(String amount, String label) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              amount,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
-            Text(label),
-          ],
-        ),
-      ),
     );
   }
 }

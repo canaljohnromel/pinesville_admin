@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pinesville_admin/dashboard.dart';
 
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-class LoginPage extends StatelessWidget {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isPasswordVisible = false;
 
   void handleLogin(BuildContext context) {
     final String email = emailController.text;
@@ -89,27 +94,41 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(height: 16),
                       TextField(
                         controller: passwordController,
-                        obscureText: true,
+                        obscureText: !isPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Password",
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.visibility_off),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () => handleLogin(context),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.teal,
+                          backgroundColor: Color(0xFF006989), // Updated color
                           minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0), // Same border radius as TextField
+                          ),
                         ),
-                        child: const Text("LOGIN"),
+                        child: const Text("LOGIN", style: TextStyle(color: Colors.white),),
                       ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text("Forgot Password?"),
-                      ),
+                      // const SizedBox(height: 16),
+                      // TextButton(
+                      //   onPressed: () {},
+                      //   child: const Text("Forgot Password?"),
+                      // ),
                       const SizedBox(height: 100),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
