@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pinesville_admin/bar%20chart/chart_column3.dart';
+import 'package:pinesville_admin/bar%20chart/pie_chart.dart';
 import 'package:pinesville_admin/login.dart';
 import 'package:pinesville_admin/tenants.dart';
 import 'package:pinesville_admin/chats.dart';
@@ -223,17 +225,18 @@ class DashboardContent extends StatelessWidget {
           // Analytics Section
           SizedBox(height: 16),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: Container(
                   height: 500,
-                  width: 500,
+                  width: 100,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(color: Colors.grey.shade300),
                   ),
-                  child: Center(child: Text('Pie Chart')),
+                  child: pieChart(),
                 ),
               ),
               SizedBox(width: 16),
@@ -246,7 +249,7 @@ class DashboardContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(color: Colors.grey.shade300),
                   ),
-                  child: Center(child: Text('Graph')),
+                  child: chartColumn3(),
                 ),
               ),
             ],
@@ -278,3 +281,4 @@ class DashboardContent extends StatelessWidget {
     );
   }
 }
+
