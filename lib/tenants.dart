@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinesville_admin/chats.dart';
 
 class TenantsPage extends StatefulWidget {
   @override
@@ -8,107 +7,110 @@ class TenantsPage extends StatefulWidget {
 
 class _TenantsPageState extends State<TenantsPage> {
   final List<Map<String, String>> tenants = [
-    {'name': 'Ralph Edwards', 'room': 'Room 101'},
-    {'name': 'Guy Hawkins', 'room': 'Room 102'},
-    {'name': 'Darrell Steward', 'room': 'Room 103'},
-    {'name': 'Savannah Nguyen', 'room': 'Room 104'},
-    {'name': 'Eleanor Pena', 'room': 'Room 105'},
-    {'name': 'Cody Fisher', 'room': 'Room 106'},
-    {'name': 'Theresa Webb', 'room': 'Room 107'},
-    {'name': 'Marvin McKinney', 'room': 'Room 108'},
-    {'name': 'Arlene McCoy', 'room': 'Room 109'},
-    {'name': 'Esther Howard', 'room': 'Room 110'},
-    {'name': 'Floyd Miles', 'room': 'Room 111'},
-    {'name': 'Jerome Bell', 'room': 'Room 112'},
-    {'name': 'Jane Cooper', 'room': 'Room 113'},
-    {'name': 'Dianne Russell', 'room': 'Room 114'},
-    {'name': 'Darlene Robertson', 'room': 'Room 115'},
-    {'name': 'Courtney Henry', 'room': 'Room 116'},
+    {'name': 'Ralph Edwards', 'room': 'Room 101', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Guy Hawkins', 'room': 'Room 102', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'John Doe', 'room': 'Room 103', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Jane Smith', 'room': 'Room 104', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Michael Johnson', 'room': 'Room 105', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Emily Davis', 'room': 'Room 106', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'David Williams', 'room': 'Room 107', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Sarah Brown', 'room': 'Room 108', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Daniel Taylor', 'room': 'Room 109', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Linda Anderson', 'room': 'Room 110', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'William Moore', 'room': 'Room 111', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Elizabeth Wilson', 'room': 'Room 112', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'James White', 'room': 'Room 113', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Olivia Harris', 'room': 'Room 114', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Benjamin Martin', 'room': 'Room 115', 'image': 'assets/images/pinesville_pasig.png'},
+    {'name': 'Charlotte Lee', 'room': 'Room 116', 'image': 'assets/images/pinesville_pasig.png'},
   ];
 
   Map<String, String>? selectedTenant;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Text(
-            selectedTenant == null ? 'Tenants' : 'Tenants',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Divider(color: Colors.grey, thickness: 1),
-          SizedBox(height: 16),
-
-          // Display content based on the selected tenant
-          selectedTenant == null
-              ? Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Two columns
-                crossAxisSpacing: 2, // Horizontal spacing between columns
-                mainAxisSpacing: 16, // Vertical spacing between rows
-                childAspectRatio: 9, // Adjust card height-to-width ratio
-              ),
-              itemCount: tenants.length,
-              itemBuilder: (context, index) {
-                return _buildTenantCard(tenants[index]);
-              },
-            ),
-          )
-              : _buildTenantDetails(selectedTenant!),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0), // Add horizontal padding
+    child: Text(
+    'Tenants',
+    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+    ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1.0),
+          child: Divider(color: Colors.grey),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: selectedTenant == null
+            ? _buildTenantGrid()
+            : _buildTenantDetails(selectedTenant!),
       ),
     );
   }
 
-  Widget _buildTenantCard(Map<String, String> tenant) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTenant = tenant;
-        });
-      },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Circular Avatar
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.grey.shade200,
-            backgroundImage: AssetImage(
-                'assets/images/pinesville_pasig.png'), // Replace with actual images
-          ),
-          SizedBox(width: 16),
-          // Name and Room
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                tenant['name']!,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                tenant['room']!,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
-          ),
-        ],
+  Widget _buildTenantGrid() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4, // 4 columns for the grid
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 2, // Slightly reduced height for each grid item
       ),
+      itemCount: tenants.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedTenant = tenants[index];
+            });
+          },
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  ClipOval(
+                    child: Image.asset(
+                      tenants[index]['image']!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: 50),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tenants[index]['name']!,
+                        style: TextStyle(
+                          fontSize:20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        tenants[index]['room']!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -122,104 +124,92 @@ class _TenantsPageState extends State<TenantsPage> {
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 setState(() {
-                  selectedTenant = null; // Reset to show the grid view again
+                  selectedTenant = null;
                 });
               },
             ),
             Text(
               'Back',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
         SizedBox(height: 16),
-        // Image and Details with left padding
-        Padding(
-          padding: const EdgeInsets.only(left: 100.0), // Add left spacing
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey.shade200,
-                backgroundImage: AssetImage(
-                    'assets/images/pinesville_pasig.png'), // Replace with actual images
-              ),
-              SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tenant['name']!,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    tenant['room']!,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 32),
-        // Tenant details with left padding
-        Padding(
-          padding: const EdgeInsets.only(left: 100.0), // Add left spacing
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildDetailRow('Email:', 'juandelacruz@gmail.com'),
-              _buildDetailRow('Contact Number:', '(+63) 9012345678'),
-              _buildDetailRow('Move-in Date:', 'January 10, 2024'),
-            ],
-          ),
-        ),
-        SizedBox(height: 32),
-        // Action buttons
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatsPage(selectedTenant: selectedTenant!), // Navigate to ChatsPage
-                  ),
-                );
-              },
-              icon: Icon(Icons.message),
-              label: Text('Message'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+            ClipOval(
+              child: Image.asset(
+                tenant['image']!,
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
               ),
             ),
             SizedBox(width: 16),
-            ElevatedButton.icon(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tenant['name']!,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  tenant['room']!,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 32),
+        _buildDetailRow('Email:', 'juandelacruz@gmail.com'),
+        _buildDetailRow('Contact Number:', '(+63) 9012345678'),
+        _buildDetailRow('Move-in Date:', 'January 10, 2024'),
+        SizedBox(height: 32),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
               onPressed: () {},
-              icon: Icon(Icons.person_remove),
-              label: Text('Remove'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-              ),
+              child: Text('View Transaction History'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Submit Readings'),
+            ),
+          ],
+        ),
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Add Details'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Message'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Remove'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             ),
           ],
         ),
       ],
     );
   }
-
-
-
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(

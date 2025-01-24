@@ -9,6 +9,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
   bool isPasswordVisible = false;
 
   void handleLogin(BuildContext context) {
@@ -28,7 +30,13 @@ class _LoginPageState extends State<LoginPage> {
           content: Text('Invalid email or password. Please try again.'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                // Clear the input fields
+                emailController.clear();
+                passwordController.clear();
+                // Close the dialog
+                Navigator.pop(context);
+              },
               child: Text('OK'),
             ),
           ],
@@ -86,14 +94,20 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 70),
                       TextField(
                         controller: emailController,
+                        focusNode: emailFocusNode,
                         decoration: InputDecoration(
                           labelText: "Email",
                           border: OutlineInputBorder(),
                         ),
+                        textInputAction: TextInputAction.next,
+                        onSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(passwordFocusNode);
+                        },
                       ),
                       const SizedBox(height: 16),
                       TextField(
                         controller: passwordController,
+                        focusNode: passwordFocusNode,
                         obscureText: !isPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Password",
@@ -111,6 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ),
+                        textInputAction: TextInputAction.done,
+                        onSubmitted: (value) => handleLogin(context),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -122,13 +138,11 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(4.0), // Same border radius as TextField
                           ),
                         ),
-                        child: const Text("LOGIN", style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          "LOGIN",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                      // const SizedBox(height: 16),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: const Text("Forgot Password?"),
-                      // ),
                       const SizedBox(height: 100),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -166,3 +180,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

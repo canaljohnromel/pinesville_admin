@@ -5,7 +5,9 @@ import 'package:pinesville_admin/login.dart';
 import 'package:pinesville_admin/chats.dart';
 import 'package:pinesville_admin/tenants.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Pinesville Pasig',
       theme: ThemeData(
         fontFamily: 'Montserrat',
       ),
