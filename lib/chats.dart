@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinesville_admin/services/chat_service.dart';
 
 class ChatsPage extends StatefulWidget {
   final Map<String, String> selectedTenant; // Accept selectedTenant
@@ -6,8 +7,14 @@ class ChatsPage extends StatefulWidget {
   // Constructor to accept selectedTenant
   const ChatsPage({Key? key, required this.selectedTenant}) : super(key: key);
   @override
+
   _ChatsPageState createState() => _ChatsPageState();
+
 }
+
+final ChatService _ChatService = ChatService();
+
+
 Map<String, String>? selectedTenant;
 class _ChatsPageState extends State<ChatsPage> {
   final List<Map<String, String>> tenants = [
@@ -37,8 +44,12 @@ class _ChatsPageState extends State<ChatsPage> {
     // Add messages for other tenants as needed
   };
 
+
   @override
   Widget build(BuildContext context) {
+
+    final ChatService _ChatService = ChatService();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -64,7 +75,7 @@ class _ChatsPageState extends State<ChatsPage> {
                   flex: 1,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.blue,
                       border: Border.all(color: Colors.grey.shade300),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -191,6 +202,15 @@ class _ChatsPageState extends State<ChatsPage> {
           ),
         ],
       ),
+
     );
   }
+
 }
+
+
+
+
+
+
+

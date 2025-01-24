@@ -205,7 +205,7 @@ class DashboardContent extends StatelessWidget {
           // Statistics Section
           Expanded(
             child: GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: 6,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: 1,
@@ -226,6 +226,8 @@ class DashboardContent extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
+                  height: 500,
+                  width: 500,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -237,6 +239,8 @@ class DashboardContent extends StatelessWidget {
               SizedBox(width: 16),
               Expanded(
                 child: Container(
+                  height: 500,
+                  width: 500,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -261,6 +265,7 @@ class DashboardContent extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             value,
