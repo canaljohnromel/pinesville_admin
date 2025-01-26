@@ -31,7 +31,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+              'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -58,14 +58,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'pinesville-f6b24.firebasestorage.app',
   );
 
-    apiKey: 'AIzaSyBveqrF5K820CxzkvsjvbZ5ex7VdORlbfg',
-    appId: '1:975214782078:ios:00e8c8a496ef4241751a2f',
-    messagingSenderId: '975214782078',
-    projectId: 'pinesville-f6b24',
-    storageBucket: 'pinesville-f6b24.firebasestorage.app',
-    iosBundleId: 'com.example.pinesvilleAdmin',
-  );
-
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyD3pal4qCgDMlXYUasrb_QTpu3JuXbWSxA',
     appId: '1:975214782078:web:40b7b22f9455ff87751a2f',
@@ -75,3 +67,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'pinesville-f6b24.firebasestorage.app',
     measurementId: 'G-9CGYZG0QKP',
   );
+}
