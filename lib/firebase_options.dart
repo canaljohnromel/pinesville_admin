@@ -23,10 +23,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
@@ -61,7 +58,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'pinesville-f6b24.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBveqrF5K820CxzkvsjvbZ5ex7VdORlbfg',
     appId: '1:975214782078:ios:00e8c8a496ef4241751a2f',
     messagingSenderId: '975214782078',
@@ -79,4 +75,3 @@ class DefaultFirebaseOptions {
     storageBucket: 'pinesville-f6b24.firebasestorage.app',
     measurementId: 'G-9CGYZG0QKP',
   );
-}
